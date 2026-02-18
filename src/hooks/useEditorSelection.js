@@ -412,13 +412,11 @@ function useEditorSelection({
     }
 
     if (!range) {
-      window.alert('请先选择文本，或把光标放在目标文本附近。');
       return null;
     }
 
     const normalizedText = range.toString().trim();
     if (!normalizedText) {
-      window.alert('请先选择文本，或把光标放在目标文本附近。');
       return null;
     }
 
@@ -505,3 +503,4 @@ function useEditorSelection({
 }
 
 export default useEditorSelection;
+

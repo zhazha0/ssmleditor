@@ -91,6 +91,18 @@
   background: rgba(94, 113, 153, 0.12);
 }
 
+.toolbar__item:disabled,
+.toolbar__item.is-disabled {
+  color: #98a2b3;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar__item:disabled:hover,
+.toolbar__item.is-disabled:hover {
+  background: transparent;
+}
+
 .toolbar__item.is-active {
   color: #1e293b;
   background: rgba(15, 23, 42, 0.08);

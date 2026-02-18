@@ -5,6 +5,7 @@ function EditorToolbar({
   recommendedTool,
   openMenuTool,
   selectionMeta,
+  isToolEnabled,
   onToolClick,
   onPauseOptionSelect,
   onNumberOptionSelect,
@@ -12,15 +13,22 @@ function EditorToolbar({
   onPolyphoneOptionSelect,
 }) {
   const pauseMenuVisible = openMenuTool === 'pause';
-  const numberMenuVisible = openMenuTool === 'number' && selectionMeta.detectedType === 'number';
-  const englishMenuVisible = openMenuTool === 'english' && selectionMeta.detectedType === 'english';
+  const numberMenuVisible =
+    openMenuTool === 'number' && selectionMeta.detectedType === 'number' && isToolEnabled('number');
+  const englishMenuVisible =
+    openMenuTool === 'english' &&
+    selectionMeta.detectedType === 'english' &&
+    isToolEnabled('english');
   const polyphoneMenuVisible =
-    openMenuTool === 'polyphone' && selectionMeta.polyphoneOptions.length > 1;
+    openMenuTool === 'polyphone' &&
+    selectionMeta.polyphoneOptions.length > 1 &&
+    isToolEnabled('polyphone');
 
   return (
     <div ref={toolbarRef} className="toolbar" role="toolbar" aria-label="SSML 编辑工具栏">
       {TOOLBAR_ITEMS.map((item) => {
-        const isActive = recommendedTool === item.key || openMenuTool === item.key;
+        const enabled = isToolEnabled(item.key);
+        const isActive = enabled && (recommendedTool === item.key || openMenuTool === item.key);
 
         return (
           <div key={item.key} className="toolbar__item-wrap">
@@ -28,9 +36,11 @@ function EditorToolbar({
               type="button"
               className={`toolbar__item ${item.hasCaret ? 'has-caret' : ''} ${
                 isActive ? 'is-active' : ''
-              }`}
+              } ${enabled ? '' : 'is-disabled'}`}
+              disabled={!enabled}
               onPointerDown={(event) => {
                 event.preventDefault();
+                if (!enabled) return;
                 onToolClick(item.key);
               }}
             >

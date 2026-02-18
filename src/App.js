@@ -73,6 +73,21 @@ function App() {
     confirmBgmModal,
   } = useBgmState();
 
+  const isToolEnabled = useCallback(
+    (toolKey) => {
+      if (toolKey === 'pause' || toolKey === 'bgm') return true;
+      if (toolKey === 'number') return selectionMeta.detectedType === 'number';
+      if (toolKey === 'english') return selectionMeta.detectedType === 'english';
+      if (toolKey === 'polyphone') {
+        return (
+          selectionMeta.detectedType === 'polyphone' && selectionMeta.polyphoneOptions.length > 1
+        );
+      }
+      return false;
+    },
+    [selectionMeta.detectedType, selectionMeta.polyphoneOptions.length]
+  );
+
   const replaceRangeWithToken = (range, tokenMeta) => {
     const token = createTokenElement(tokenMeta);
     range.deleteContents();
@@ -88,7 +103,7 @@ function App() {
     if (!range) return;
 
     if (option.custom) {
-      const raw = window.prompt('请输入停顿时长，例如 1s 或 300ms', '1s');
+      const raw = window.prompt('璇疯緭鍏ュ仠椤挎椂闀匡紝渚嬪 1s 鎴?300ms', '1s');
       if (raw === null) return;
       const time = raw.trim() || '1s';
       replaceRangeWithToken(range, { type: 'pause', label: time, time });
@@ -105,10 +120,7 @@ function App() {
   const insertNumberFromSelection = (interpretAs) => {
     const selected = requireSelectedText();
     if (!selected) return;
-    if (!isNumberText(selected.normalizedText)) {
-      window.alert('当前选择不是纯数字。');
-      return;
-    }
+    if (!isNumberText(selected.normalizedText)) return;
 
     replaceRangeWithToken(selected.range, {
       type: 'number',
@@ -121,10 +133,7 @@ function App() {
   const insertEnglishFromSelection = (interpretAs = 'characters') => {
     const selected = requireSelectedText();
     if (!selected) return;
-    if (!isEnglishText(selected.normalizedText)) {
-      window.alert('当前选择不是英文单词。');
-      return;
-    }
+    if (!isEnglishText(selected.normalizedText)) return;
 
     replaceRangeWithToken(selected.range, {
       type: 'english',
@@ -139,10 +148,7 @@ function App() {
     if (!selected) return;
 
     const options = getPolyphoneOptions(selected.normalizedText);
-    if (options.length <= 1) {
-      window.alert('当前选择不是可区分读音的多音字。');
-      return;
-    }
+    if (options.length <= 1) return;
 
     replaceRangeWithToken(selected.range, {
       type: 'polyphone',
@@ -153,6 +159,11 @@ function App() {
   };
 
   const handleToolClick = (toolKey) => {
+    if (!isToolEnabled(toolKey)) {
+      setOpenMenuTool(null);
+      return;
+    }
+
     if (toolKey === 'pause') {
       setOpenMenuTool((prev) => (prev === 'pause' ? null : 'pause'));
       return;
@@ -165,35 +176,16 @@ function App() {
     }
 
     if (toolKey === 'number') {
-      const selected = requireSelectedText();
-      if (!selected) return;
-      if (!isNumberText(selected.normalizedText)) {
-        window.alert('当前选择不是纯数字。');
-        return;
-      }
       setOpenMenuTool((prev) => (prev === 'number' ? null : 'number'));
       return;
     }
 
     if (toolKey === 'english') {
-      const selected = requireSelectedText();
-      if (!selected) return;
-      if (!isEnglishText(selected.normalizedText)) {
-        window.alert('当前选择不是英文单词。');
-        return;
-      }
       setOpenMenuTool((prev) => (prev === 'english' ? null : 'english'));
       return;
     }
 
     if (toolKey === 'polyphone') {
-      const selected = requireSelectedText();
-      if (!selected) return;
-      const options = getPolyphoneOptions(selected.normalizedText);
-      if (options.length <= 1) {
-        window.alert('当前选择不是可区分读音的多音字。');
-        return;
-      }
       setOpenMenuTool((prev) => (prev === 'polyphone' ? null : 'polyphone'));
     }
   };
@@ -237,14 +229,18 @@ function App() {
     }
     const ssml = `<speak${attrs.length ? ` ${attrs.join(' ')}` : ''}>${ssmlBody}</speak>`;
 
-    return {
+    const contentPayload = {
       text: ssml,
+      bgm: bgmUrl.trim(),
+      backgroundMusicVolume,
+    };
+
+    return {
+      ...contentPayload,
       speech_rate: 0,
       pitch_rate: 0,
       voice: 'xiaoyun',
       volume: 50,
-      bgm: bgmUrl.trim(),
-      backgroundMusicVolume,
     };
   }, [backgroundMusicVolume, bgmUrl, editorRef]);
 
@@ -256,7 +252,11 @@ function App() {
       const message = {
         type: CONTENT_CHANGE_MESSAGE_TYPE,
         reason,
-        payload: nextPayload,
+        payload: {
+          text: nextPayload.text,
+          bgm: nextPayload.bgm,
+          backgroundMusicVolume: nextPayload.backgroundMusicVolume,
+        },
         timestamp: Date.now(),
       };
 
@@ -287,42 +287,6 @@ function App() {
     if (!editor) return;
 
     editor.innerHTML = '';
-    editor.append('这是一段测试文本，插入停顿');
-    editor.appendChild(
-      createTokenElement({
-        type: 'pause',
-        label: '1s',
-        time: '1s',
-      })
-    );
-    editor.append('。插入数字');
-    editor.appendChild(
-      createTokenElement({
-        type: 'number',
-        label: '123',
-        value: '123',
-        interpretAs: 'cardinal',
-      })
-    );
-    editor.append('，插入英文');
-    editor.appendChild(
-      createTokenElement({
-        type: 'english',
-        label: 'hello',
-        value: 'hello',
-        interpretAs: 'characters',
-      })
-    );
-    editor.append(',插入多音字');
-    editor.appendChild(
-      createTokenElement({
-        type: 'polyphone',
-        label: '行',
-        value: '行',
-        ph: 'xing2',
-      })
-    );
-    editor.append('走，插入背景音乐。');
     notifyContainerContentChange('init');
   }, [editorRef, notifyContainerContentChange]);
 
@@ -351,6 +315,7 @@ function App() {
             recommendedTool={selectionMeta.detectedType}
             openMenuTool={openMenuTool}
             selectionMeta={selectionMeta}
+            isToolEnabled={isToolEnabled}
             onToolClick={handleToolClick}
             onPauseOptionSelect={handlePauseOptionSelect}
             onNumberOptionSelect={insertNumberFromSelection}
@@ -379,7 +344,7 @@ function App() {
 
         {payload && (
           <section className="result-panel">
-            <h2>提交参数</h2>
+            <h2>鎻愪氦鍙傛暟</h2>
             <pre>{JSON.stringify(payload, null, 2)}</pre>
           </section>
         )}
@@ -400,3 +365,5 @@ function App() {
 }
 
 export default App;
+
+

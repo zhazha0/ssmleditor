@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { DEFAULT_BGM, DEFAULT_BGM_VOLUME } from '../config/editorConfig';
+import { DEFAULT_BGM_VOLUME } from '../config/editorConfig';
 
 const clampVolume = (value) => {
   const parsed = Number(value);
@@ -11,13 +11,13 @@ function useBgmState() {
   const fileInputRef = useRef(null);
   const uploadedBgmObjectUrlRef = useRef(null);
 
-  const [bgmUrl, setBgmUrl] = useState(DEFAULT_BGM.url);
-  const [bgmLabel, setBgmLabel] = useState(DEFAULT_BGM.label);
+  const [bgmUrl, setBgmUrl] = useState('');
+  const [bgmLabel, setBgmLabel] = useState('');
   const [backgroundMusicVolume, setBackgroundMusicVolume] = useState(DEFAULT_BGM_VOLUME);
   const [bgmModalOpen, setBgmModalOpen] = useState(false);
   const [bgmDraft, setBgmDraft] = useState({
-    url: DEFAULT_BGM.url,
-    label: DEFAULT_BGM.label,
+    url: '',
+    label: '',
     volume: DEFAULT_BGM_VOLUME,
   });
 
