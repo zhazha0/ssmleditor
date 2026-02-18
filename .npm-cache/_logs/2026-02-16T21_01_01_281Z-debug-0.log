@@ -1,0 +1,111 @@
+0 verbose cli E:\Program Files\Nodejs\node.exe E:\Program Files\Nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.1
+2 info using node@v24.10.0
+3 silly config load:file:E:\Program Files\Nodejs\node_modules\npm\npmrc
+4 silly config load:file:E:\Dev\Voice\ssmleditor\.npmrc
+5 silly config load:file:C:\Users\fei\.npmrc
+6 silly config load:file:C:\Users\fei\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm i pinyin-pro
+8 verbose argv "i" "pinyin-pro"
+9 verbose logfile logs-max:10 dir:E:\Dev\Voice\ssmleditor\.npm-cache\_logs\2026-02-16T21_01_01_281Z-
+10 verbose logfile E:\Dev\Voice\ssmleditor\.npm-cache\_logs\2026-02-16T21_01_01_281Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest pinyin-pro@*
+15 silly packumentCache full:https://registry.npmjs.org/pinyin-pro cache-miss
+16 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+17 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with EACCES
+18 http fetch GET https://registry.npmjs.org/pinyin-pro attempt 1 failed with EACCES
+19 http fetch GET https://registry.npmjs.org/npm attempt 2 failed with EACCES
+20 http fetch GET https://registry.npmjs.org/pinyin-pro attempt 2 failed with EACCES
+21 http fetch GET https://registry.npmjs.org/npm attempt 3 failed with EACCES
+22 http fetch GET https://registry.npmjs.org/pinyin-pro attempt 3 failed with EACCES
+23 silly placeDep ROOT pinyin-pro@ OK for: ssmleditor@0.1.0 want: *
+24 silly fetch manifest yaml@^2.4.2
+25 silly packumentCache full:https://registry.npmjs.org/yaml cache-miss
+26 http fetch GET https://registry.npmjs.org/yaml attempt 1 failed with EACCES
+27 http fetch GET https://registry.npmjs.org/yaml attempt 2 failed with EACCES
+28 http fetch GET https://registry.npmjs.org/yaml attempt 3 failed with EACCES
+29 silly placeDep node_modules/tailwindcss yaml@ OK for: postcss-load-config@6.0.1 want: ^2.4.2
+30 warn ERESOLVE overriding peer dependency {
+30 warn ERESOLVE   code: 'ERESOLVE',
+30 warn ERESOLVE   edge: {
+30 warn ERESOLVE     type: 'peerOptional',
+30 warn ERESOLVE     name: 'yaml',
+30 warn ERESOLVE     spec: '^2.4.2',
+30 warn ERESOLVE     error: 'INVALID',
+30 warn ERESOLVE     from: {
+30 warn ERESOLVE       name: 'postcss-load-config',
+30 warn ERESOLVE       version: '6.0.1',
+30 warn ERESOLVE       location: 'node_modules/tailwindcss/node_modules/postcss-load-config',
+30 warn ERESOLVE       isWorkspace: false,
+30 warn ERESOLVE       dependents: [Array]
+30 warn ERESOLVE     }
+30 warn ERESOLVE   },
+30 warn ERESOLVE   dep: {
+30 warn ERESOLVE     name: 'yaml',
+30 warn ERESOLVE     version: undefined,
+30 warn ERESOLVE     errors: [ [FetchError] ],
+30 warn ERESOLVE     package: {},
+30 warn ERESOLVE     whileInstalling: {
+30 warn ERESOLVE       name: 'postcss-load-config',
+30 warn ERESOLVE       version: '6.0.1',
+30 warn ERESOLVE       path: 'E:\\Dev\\Voice\\ssmleditor\\node_modules\\tailwindcss\\node_modules\\postcss-load-config'
+30 warn ERESOLVE     },
+30 warn ERESOLVE     location: 'node_modules/yaml',
+30 warn ERESOLVE     isWorkspace: false,
+30 warn ERESOLVE     dependents: [ [Object] ]
+30 warn ERESOLVE   },
+30 warn ERESOLVE   force: false,
+30 warn ERESOLVE   isMine: false,
+30 warn ERESOLVE   strictPeerDeps: false,
+30 warn ERESOLVE   current: {
+30 warn ERESOLVE     name: 'yaml',
+30 warn ERESOLVE     version: undefined,
+30 warn ERESOLVE     errors: [ [FetchError] ],
+30 warn ERESOLVE     package: {},
+30 warn ERESOLVE     location: 'node_modules/tailwindcss/node_modules/yaml',
+30 warn ERESOLVE     isWorkspace: false,
+30 warn ERESOLVE     dependents: []
+30 warn ERESOLVE   }
+30 warn ERESOLVE }
+31 verbose type system
+32 verbose stack FetchError: request to https://registry.npmjs.org/pinyin-pro failed, reason: 
+32 verbose stack     at ClientRequest.<anonymous> (E:\Program Files\Nodejs\node_modules\npm\node_modules\minipass-fetch\lib\index.js:130:14)
+32 verbose stack     at ClientRequest.emit (node:events:508:28)
+32 verbose stack     at emitErrorEvent (node:_http_client:107:11)
+32 verbose stack     at _destroy (node:_http_client:954:9)
+32 verbose stack     at onSocketNT (node:_http_client:974:5)
+32 verbose stack     at process.processTicksAndRejections (node:internal/process/task_queues:91:21)
+33 error code EACCES
+34 error errno EACCES
+35 error FetchError: request to https://registry.npmjs.org/pinyin-pro failed, reason: 
+35 error     at ClientRequest.<anonymous> (E:\Program Files\Nodejs\node_modules\npm\node_modules\minipass-fetch\lib\index.js:130:14)
+35 error     at ClientRequest.emit (node:events:508:28)
+35 error     at emitErrorEvent (node:_http_client:107:11)
+35 error     at _destroy (node:_http_client:954:9)
+35 error     at onSocketNT (node:_http_client:974:5)
+35 error     at process.processTicksAndRejections (node:internal/process/task_queues:91:21) {
+35 error   code: 'EACCES',
+35 error   errno: 'EACCES',
+35 error   type: 'system',
+35 error   requiredBy: '.'
+35 error }
+36 error
+36 error The operation was rejected by your operating system.
+36 error It's possible that the file was already in use (by a text editor or antivirus),
+36 error or that you lack permissions to access it.
+36 error
+36 error If you believe this might be a permissions issue, please double-check the
+36 error permissions of the file and its containing directories, or try running
+36 error the command again as root/Administrator.
+37 silly unfinished npm timer reify 1771275661928
+38 silly unfinished npm timer reify:loadTrees 1771275661929
+39 verbose cwd E:\Dev\Voice\ssmleditor
+40 verbose os Windows_NT 10.0.26100
+41 verbose node v24.10.0
+42 verbose npm  v11.6.1
+43 verbose exit 1
+44 verbose code 1
+45 error A complete log of this run can be found in: E:\Dev\Voice\ssmleditor\.npm-cache\_logs\2026-02-16T21_01_01_281Z-debug-0.log
